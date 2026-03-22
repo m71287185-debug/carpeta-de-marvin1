@@ -1,26 +1,34 @@
+import streamlit as st
 
-#creamos el input para los grados y lo hacemos float
-temperatura = float(input("ingrese la temperatura:"))
-#hacemos una nueva entrada para el tipo de grados que estamos ingresando
-tipo = (input("¿Es celsius (c) o farenheit (f)?"))
-#si el tipo es celsius entonces:
-if tipo.upper() == "C":
-    farenheit = (temperatura * 9 / 5) +32
-    print(f"El resultado es : {farenheit}°F")
-#una vez exista la variable farenheit y se imprima su valor si es <= 32 entonces...    
-    if farenheit <= 32 : 
-        print("AGUA CONGELADA")
-    #si lo anterior da false entonces...
-    elif farenheit >= 212 : 
-        print("AGUA HIRVIENDO!!")
-#ahora creamos el condicional si el tipo.upper da F
-if tipo.upper() == "F" : 
+# Título de la aplicación en la web
+st.title("🌡️ Conversor de Temperatura de Marvin")
+st.write("Convierte grados Celsius y Fahrenheit al instante.")
+
+# Creamos el input numérico en la web (reemplaza al input tradicional)
+temperatura = st.number_input("Ingresa la temperatura:", value=0.0)
+
+# Selector de tipo (reemplaza a la pregunta de texto)
+tipo = st.selectbox("¿Qué unidad estás ingresando?", ["Celsius (C)", "Fahrenheit (F)"])
+
+# Si el tipo seleccionado empieza con "C" (Celsius)
+if tipo.startswith("Celsius"):
+    farenheit = (temperatura * 9 / 5) + 32
+    # st.metric hace que el número se vea grande y profesional
+    st.metric(label="Resultado:", value=f"{farenheit:.2f} °F")
+    
+    # Tu lógica de estados del agua
+    if farenheit <= 32:
+        st.info("❄️ AGUA CONGELADA")
+    elif farenheit >= 212:
+        st.error("🔥 AGUA HIRVIENDO!!")
+
+# Si el tipo seleccionado empieza con "F" (Fahrenheit)
+else:
     celsius = (temperatura - 32) * 5 / 9
-    print(f"El resultado es : {celsius}°C")
-     #una vez se imprima en pantalla el valor convertido, creamos el condicional para agua congelada
-    if celsius <= 0 :
-        print("AGUA CONGELADA")
-    #ahora para agua hirviendo
-    elif celsius >= 100 :
-        print("AGUA HIRVIENDO!!")
-        
+    st.metric(label="Resultado:", value=f"{celsius:.2f} °C")
+    
+    # Tu lógica de estados del agua
+    if celsius <= 0:
+        st.info("❄️ AGUA CONGELADA")
+    elif celsius >= 100:
+        st.error("🔥 AGUA HIRVIENDO!!")
